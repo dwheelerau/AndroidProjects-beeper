@@ -73,6 +73,7 @@ public class Beeper_activity extends AppCompatActivity {
                 int secs = seconds%60;
                 String time = String.format("%d:%02d:%02d",hours,minutes,secs);
                 timeView.setText(time);
+                //clock ticks over now
                 if (running) {
                     seconds++;
                 }
