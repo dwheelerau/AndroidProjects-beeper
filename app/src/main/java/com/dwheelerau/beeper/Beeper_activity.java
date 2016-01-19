@@ -15,7 +15,7 @@ import org.w3c.dom.Text;
 
 public class Beeper_activity extends AppCompatActivity {
 
-    private int seconds = 0;
+    private int milliSeconds = 0;
     private boolean running;
 
     @Override
@@ -23,7 +23,7 @@ public class Beeper_activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_beeper_activity);
         if (savedInstanceState != null){
-            seconds = savedInstanceState.getInt("seconds");
+            milliSeconds = savedInstanceState.getInt("milliSeconds");
             running = savedInstanceState.getBoolean("running");
         }
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -42,7 +42,7 @@ public class Beeper_activity extends AppCompatActivity {
     //save progress during redraw
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState){
-        savedInstanceState.putInt("seconds",seconds);
+        savedInstanceState.putInt("milliSeconds",milliSeconds);
         savedInstanceState.putBoolean("running",running);
     }
 
@@ -59,7 +59,7 @@ public class Beeper_activity extends AppCompatActivity {
     //function for reset
     public void onClickReset(View view){
         running = false;
-        seconds = 0;
+        milliSeconds = 0;
     }
 
     private void runTimer(){
@@ -68,16 +68,16 @@ public class Beeper_activity extends AppCompatActivity {
         handler.post(new Runnable() {
             @Override
             public void run() {
-                int hours = seconds/3600;
-                int minutes = (seconds%3600)/60;
-                int secs = seconds%60;
-                String time = String.format("%d:%02d:%02d",hours,minutes,secs);
+                int min = milliSeconds/600;
+                int secs = (milliSeconds/10)%60;
+                int msecs = milliSeconds%10; // 1/10 sec
+                String time = String.format("%02d:%02d.%d",min, secs, msecs);
                 timeView.setText(time);
                 //clock ticks over now
                 if (running) {
-                    seconds++;
-                }
-                handler.postDelayed(this, 1000);
+                    milliSeconds++;
+                    }
+                handler.postDelayed(this, 100);
             }
         });
     }
