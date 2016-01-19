@@ -22,6 +22,10 @@ public class Beeper_activity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_beeper_activity);
+        if (savedInstanceState != null){
+            seconds = savedInstanceState.getInt("seconds");
+            running = savedInstanceState.getBoolean("running");
+        }
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         runTimer();
@@ -33,6 +37,13 @@ public class Beeper_activity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+    }
+
+    //save progress during redraw
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState){
+        savedInstanceState.putInt("seconds",seconds);
+        savedInstanceState.putBoolean("running",running);
     }
 
     //function for start button
