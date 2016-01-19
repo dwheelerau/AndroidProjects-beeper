@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
+import java.util.List;
+import java.util.ArrayList;
 
 import org.w3c.dom.Text;
 
@@ -17,6 +19,11 @@ public class Beeper_activity extends AppCompatActivity {
 
     private int milliSeconds = 0;
     private boolean running;
+    //beep vars
+    //private List<int> level = new ArrayList();
+    //private List<int> beepInterval = new ArrayList();
+    //private List<int> timeSwitch = new ArrayList();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
