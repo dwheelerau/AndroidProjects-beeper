@@ -1,6 +1,7 @@
 package com.dwheelerau.beeper;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -10,7 +11,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
 public class Beeper_activity extends AppCompatActivity {
+
+    private int seconds = 0;
+    private boolean running;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,7 +24,7 @@ public class Beeper_activity extends AppCompatActivity {
         setContentView(R.layout.activity_beeper_activity);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        runTimer();
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -29,12 +35,40 @@ public class Beeper_activity extends AppCompatActivity {
         });
     }
 
-    public void push_but(View view){
-        TextView myView = (TextView) findViewById(R.id.message);
-        myView.setText("test");
-
+    //function for start button
+    public void onClickStart(View view){
+        running = true;
     }
 
+    //function for stop button
+    public void onClickStop(View view){
+        running = false;
+    }
+
+    //function for reset
+    public void onClickReset(View view){
+        running = false;
+        seconds = 0;
+    }
+
+    private void runTimer(){
+        final TextView timeView = (TextView)findViewById(R.id.time_view);
+        final Handler handler = new Handler();
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                int hours = seconds/3600;
+                int minutes = (seconds%3600)/60;
+                int secs = seconds%60;
+                String time = String.format("%d:%02d:%02d",hours,minutes,secs);
+                timeView.setText(time);
+                if (running) {
+                    seconds++;
+                }
+                handler.postDelayed(this, 1000);
+            }
+        });
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
